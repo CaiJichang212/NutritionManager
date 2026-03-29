@@ -76,7 +76,6 @@ export function LoginPage() {
         if (loginType === "phone") {
           await authService.login({
             phone: formData.phone,
-            password: formData.code,
             code: formData.code,
           });
         } else {

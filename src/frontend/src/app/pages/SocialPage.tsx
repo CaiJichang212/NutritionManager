@@ -75,13 +75,25 @@ export function SocialPage() {
     }
   };
 
-  const handleShare = () => {
+  const handleShare = async () => {
+    const shareText = `🔥 我在用营养健康管家，连续打卡${streak}天！科学饮食，健康生活 #营养健康管家`;
+
     if (navigator.share) {
-      navigator.share({
-        title: "营养健康管家",
-        text: `我已连续打卡${streak}天，今天的热量摄入很健康！`,
-        url: window.location.origin,
-      });
+      try {
+        await navigator.share({
+          title: '营养健康管家',
+          text: shareText,
+          url: window.location.origin,
+        });
+      } catch (err) {
+        if ((err as Error).name !== 'AbortError') {
+          await navigator.clipboard.writeText(shareText);
+          alert('分享内容已复制到剪贴板');
+        }
+      }
+    } else {
+      await navigator.clipboard.writeText(shareText);
+      alert('分享内容已复制到剪贴板');
     }
   };
 
@@ -261,10 +273,39 @@ export function SocialPage() {
           邀请好友一起记录饮食，双方各得100积分！好友完成首次记录，您再得50积分！
         </p>
         <div className="flex gap-3">
-          <button className="flex-1 py-2.5 bg-white/20 hover:bg-white/30 rounded-xl text-sm transition-colors flex items-center justify-center gap-2">
+          <button
+            onClick={async () => {
+              const shareText = `🔥 我在用营养健康管家，科学饮食，健康生活！邀请码：${user?.username || 'USER'}\n下载地址：${window.location.origin}`;
+              if (navigator.share) {
+                try {
+                  await navigator.share({
+                    title: '营养健康管家',
+                    text: shareText,
+                    url: window.location.origin,
+                  });
+                } catch (err) {
+                  if ((err as Error).name !== 'AbortError') {
+                    await navigator.clipboard.writeText(shareText);
+                    alert('分享内容已复制到剪贴板');
+                  }
+                }
+              } else {
+                await navigator.clipboard.writeText(shareText);
+                alert('分享内容已复制到剪贴板');
+              }
+            }}
+            className="flex-1 py-2.5 bg-white/20 hover:bg-white/30 rounded-xl text-sm transition-colors flex items-center justify-center gap-2"
+          >
             微信分享
           </button>
-          <button className="flex-1 py-2.5 bg-white/20 hover:bg-white/30 rounded-xl text-sm transition-colors flex items-center justify-center gap-2">
+          <button
+            onClick={async () => {
+              const inviteLink = `${window.location.origin}?invite=${user?.id || 'guest'}`;
+              await navigator.clipboard.writeText(inviteLink);
+              alert('邀请链接已复制到剪贴板');
+            }}
+            className="flex-1 py-2.5 bg-white/20 hover:bg-white/30 rounded-xl text-sm transition-colors flex items-center justify-center gap-2"
+          >
             复制链接
           </button>
         </div>

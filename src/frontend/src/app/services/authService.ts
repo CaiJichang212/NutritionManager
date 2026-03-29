@@ -4,7 +4,7 @@ import { useAuthStore, User } from '../stores/authStore';
 export interface LoginRequest {
   phone?: string;
   email?: string;
-  password: string;
+  password?: string;
   code?: string;
 }
 

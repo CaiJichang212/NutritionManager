@@ -51,6 +51,59 @@ export function ReportsPage() {
     }
   };
 
+  const handleShare = async () => {
+    const shareText = `📊 我的营养报告（${reportType === "daily" ? "日报" : reportType === "weekly" ? "周报" : "月报"}）
+
+🔥 平均热量：${avgCalories} kcal/天
+⭐ 平均评分：${avgScore.toFixed(1)}/10
+🎯 目标达成率：${goalRate}%
+📅 记录天数：${recordDays} 天
+
+#营养健康管家`;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: '我的营养报告',
+          text: shareText,
+          url: window.location.href,
+        });
+      } catch (err) {
+        if ((err as Error).name !== 'AbortError') {
+          await navigator.clipboard.writeText(shareText);
+          alert('报告已复制到剪贴板');
+        }
+      }
+    } else {
+      await navigator.clipboard.writeText(shareText);
+      alert('报告已复制到剪贴板');
+    }
+  };
+
+  const handleExport = () => {
+    const reportData = {
+      reportType: reportType === "daily" ? "日报" : reportType === "weekly" ? "周报" : "月报",
+      generatedAt: new Date().toLocaleString('zh-CN'),
+      averageCalories: avgCalories,
+      averageScore: avgScore.toFixed(1),
+      goalAchievementRate: goalRate,
+      recordDays: recordDays,
+      calorieTarget: calorieTarget,
+      macroTargets: macroTargets,
+      dailySummaries: historySummary?.daily_summaries || [],
+    };
+
+    const blob = new Blob([JSON.stringify(reportData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `营养报告_${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   const weeklyData = historySummary?.daily_summaries.map((d, i) => ({
     day: ["周一", "周二", "周三", "周四", "周五", "周六", "今天"][i] || d.date.slice(5),
     calories: d.calories,
@@ -101,10 +154,18 @@ export function ReportsPage() {
       <div className="flex items-center justify-between">
         <h1 className="text-gray-800">数据报告</h1>
         <div className="flex gap-2">
-          <button className="p-2 border border-gray-200 rounded-xl text-gray-500 hover:bg-gray-50 transition-colors">
+          <button
+            onClick={handleShare}
+            className="p-2 border border-gray-200 rounded-xl text-gray-500 hover:bg-gray-50 hover:text-green-600 hover:border-green-300 transition-colors"
+            title="分享报告"
+          >
             <Share2 size={16} />
           </button>
-          <button className="p-2 border border-gray-200 rounded-xl text-gray-500 hover:bg-gray-50 transition-colors">
+          <button
+            onClick={handleExport}
+            className="p-2 border border-gray-200 rounded-xl text-gray-500 hover:bg-gray-50 hover:text-green-600 hover:border-green-300 transition-colors"
+            title="导出报告"
+          >
             <Download size={16} />
           </button>
         </div>

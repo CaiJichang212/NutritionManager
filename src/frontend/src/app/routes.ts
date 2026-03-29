@@ -8,6 +8,10 @@ import { ReportsPage } from "./pages/ReportsPage";
 import { AIChatPage } from "./pages/AIChatPage";
 import { ProfilePage } from "./pages/ProfilePage";
 import { SocialPage } from "./pages/SocialPage";
+import { NotificationsPage } from "./pages/settings/NotificationsPage";
+import { PrivacyPage } from "./pages/settings/PrivacyPage";
+import { HelpPage } from "./pages/settings/HelpPage";
+import { SystemPage } from "./pages/settings/SystemPage";
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +29,10 @@ export const router = createBrowserRouter([
       { path: "ai", Component: AIChatPage },
       { path: "profile", Component: ProfilePage },
       { path: "social", Component: SocialPage },
+      { path: "settings/notifications", Component: NotificationsPage },
+      { path: "settings/privacy", Component: PrivacyPage },
+      { path: "settings/help", Component: HelpPage },
+      { path: "settings/system", Component: SystemPage },
     ],
   },
 ]);

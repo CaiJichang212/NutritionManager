@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Search,
   Camera,
@@ -9,6 +9,8 @@ import {
   Plus,
   X,
   Loader2,
+  Upload,
+  CameraOff,
 } from "lucide-react";
 import { foodService, Food } from "../services/foodService";
 import { recordService } from "../services/recordService";
@@ -32,6 +34,14 @@ export function RecordPage() {
   const [amount, setAmount] = useState(100);
   const [loading, setLoading] = useState(false);
   const [searching, setSearching] = useState(false);
+  const [showCamera, setShowCamera] = useState(false);
+  const [showImageUpload, setShowImageUpload] = useState(false);
+  const [cameraLoading, setCameraLoading] = useState(false);
+  const [uploadLoading, setUploadLoading] = useState(false);
+  const [recognizedFoods, setRecognizedFoods] = useState<Food[]>([]);
+  const [showRecognizedModal, setShowRecognizedModal] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (searchQuery.trim()) {
@@ -40,6 +50,96 @@ export function RecordPage() {
       setSearchResults([]);
     }
   }, [searchQuery]);
+
+  const startCamera = async () => {
+    try {
+      setCameraLoading(true);
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'environment' }
+      });
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        videoRef.current.play();
+        setShowCamera(true);
+      }
+    } catch (err) {
+      console.error("无法访问相机:", err);
+      alert("无法访问相机，请检查权限设置");
+    } finally {
+      setCameraLoading(false);
+    }
+  };
+
+  const stopCamera = () => {
+    if (videoRef.current && videoRef.current.srcObject) {
+      const stream = videoRef.current.srcObject as MediaStream;
+      stream.getTracks().forEach(track => track.stop());
+      videoRef.current.srcObject = null;
+    }
+    setShowCamera(false);
+  };
+
+  const capturePhoto = () => {
+    if (videoRef.current) {
+      const canvas = document.createElement('canvas');
+      canvas.width = videoRef.current.videoWidth;
+      canvas.height = videoRef.current.videoHeight;
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        ctx.drawImage(videoRef.current, 0, 0);
+        const imageData = canvas.toDataURL('image/jpeg');
+        uploadImage(imageData);
+      }
+      stopCamera();
+    }
+  };
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const result = e.target?.result as string;
+        uploadImage(result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const uploadImage = async (imageData: string) => {
+    setUploadLoading(true);
+    try {
+      const mockFoods: Food[] = [
+        {
+          id: 'recognized-1',
+          name: '识别食物（模拟）',
+          brand: '包装食品',
+          servingSize: 100,
+          servingUnit: 'g',
+          calories: 200,
+          protein: 5,
+          carbohydrates: 25,
+          fat: 10,
+          fiber: 2,
+        },
+      ];
+      setRecognizedFoods(mockFoods);
+      setShowRecognizedModal(true);
+    } catch (err) {
+      console.error("图片识别失败:", err);
+      alert("图片识别失败，请稍后重试");
+    } finally {
+      setUploadLoading(false);
+    }
+  };
+
+  const handleBarcodeScan = () => {
+    alert("条形码扫描功能：请确保后端已实现条形码识别API");
+  };
+
+  const handleImageUploadClick = () => {
+    fileInputRef.current?.click();
+  };
 
   const handleSearch = async () => {
     if (!searchQuery.trim()) return;
@@ -77,8 +177,18 @@ export function RecordPage() {
       };
 
       await recordService.addRecord({
-        meal_type: selectedMeal,
-        foods: [foodItem],
+        date: new Date().toISOString().split('T')[0],
+        meal_type: selectedMeal as 'breakfast' | 'lunch' | 'dinner' | 'snack',
+        foods: [{
+          food_id: parseInt(selectedFood.id),
+          name: selectedFood.name,
+          amount: amount,
+          unit: "g",
+          calories: foodItem.calories,
+          protein: foodItem.protein,
+          fat: foodItem.fat,
+          carbs: foodItem.carbohydrates,
+        }],
       });
 
       addRecent(selectedFood);
@@ -195,12 +305,36 @@ export function RecordPage() {
                   className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm outline-none focus:border-green-400 focus:bg-white transition-colors"
                 />
               </div>
-              <button className="p-2.5 border border-gray-200 rounded-xl text-gray-500 hover:bg-gray-50 transition-colors">
+              <button
+                onClick={handleBarcodeScan}
+                className="p-2.5 border border-gray-200 rounded-xl text-gray-500 hover:bg-gray-50 hover:border-green-300 hover:text-green-600 transition-colors"
+                title="扫码识别"
+              >
                 <ScanLine size={16} />
               </button>
-              <button className="p-2.5 border border-gray-200 rounded-xl text-gray-500 hover:bg-gray-50 transition-colors">
-                <Camera size={16} />
+              <button
+                onClick={startCamera}
+                disabled={cameraLoading}
+                className="p-2.5 border border-gray-200 rounded-xl text-gray-500 hover:bg-gray-50 hover:border-green-300 hover:text-green-600 transition-colors"
+                title="拍照识别"
+              >
+                {cameraLoading ? <Loader2 size={16} className="animate-spin" /> : <Camera size={16} />}
               </button>
+              <button
+                onClick={handleImageUploadClick}
+                disabled={uploadLoading}
+                className="p-2.5 border border-gray-200 rounded-xl text-gray-500 hover:bg-gray-50 hover:border-green-300 hover:text-green-600 transition-colors"
+                title="图片上传"
+              >
+                {uploadLoading ? <Loader2 size={16} className="animate-spin" /> : <Upload size={16} />}
+              </button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleFileUpload}
+                className="hidden"
+              />
             </div>
           </div>
         )}
@@ -375,6 +509,91 @@ export function RecordPage() {
                   添加到{selectedMeal ? mealTypes.find(m => m.id === selectedMeal)?.label : "..."}
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showCamera && (
+        <div className="fixed inset-0 bg-black/80 flex flex-col z-50">
+          <div className="absolute top-4 right-4 z-10">
+            <button
+              onClick={stopCamera}
+              className="p-2 bg-white/20 rounded-full text-white hover:bg-white/30"
+            >
+              <X size={24} />
+            </button>
+          </div>
+          <div className="flex-1 flex items-center justify-center">
+            <video
+              ref={videoRef}
+              className="w-full max-h-full object-contain"
+              playsInline
+              muted
+            />
+          </div>
+          <div className="p-6 flex justify-center gap-4">
+            <button
+              onClick={stopCamera}
+              className="p-4 bg-white/20 rounded-full text-white hover:bg-white/30"
+            >
+              <CameraOff size={24} />
+            </button>
+            <button
+              onClick={capturePhoto}
+              className="p-4 bg-green-500 rounded-full text-white hover:bg-green-600 shadow-lg"
+            >
+              <Camera size={32} />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showRecognizedModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-end lg:items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+            <div className="p-4 border-b border-gray-100 flex items-center justify-between">
+              <h3 className="font-semibold text-gray-800">识别结果</h3>
+              <button
+                onClick={() => {
+                  setShowRecognizedModal(false);
+                  setRecognizedFoods([]);
+                }}
+                className="p-1 rounded-lg text-gray-400 hover:bg-gray-100"
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <div className="p-4">
+              {recognizedFoods.length === 0 ? (
+                <div className="text-center py-8 text-gray-400">
+                  <Camera size={48} className="mx-auto mb-4" />
+                  <p>未识别到食物，请尝试重新拍照或手动搜索</p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {recognizedFoods.map((food) => (
+                    <button
+                      key={food.id}
+                      onClick={() => {
+                        setSelectedFood(food);
+                        setShowRecognizedModal(false);
+                        setRecognizedFoods([]);
+                      }}
+                      className="w-full flex items-center gap-3 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors"
+                    >
+                      <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center text-lg">
+                        🍽️
+                      </div>
+                      <div className="flex-1 text-left">
+                        <div className="font-medium text-gray-800">{food.name}</div>
+                        <div className="text-xs text-gray-500">{food.calories} kcal/100g</div>
+                      </div>
+                      <ChevronRight size={16} className="text-gray-400" />
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -1,4 +1,7 @@
 .trae
+test-reports
+test-screenshots
+
 # Dependencies
 node_modules/
 .pnpm-store/

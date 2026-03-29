@@ -32,11 +32,13 @@ class UserRegister(BaseModel):
     email: Optional[EmailStr] = None
     password: str = Field(..., min_length=6)
     nickname: Optional[str] = None
+    code: Optional[str] = None
 
 class UserLogin(BaseModel):
     phone: Optional[str] = None
     email: Optional[str] = None
-    password: str
+    password: Optional[str] = None
+    code: Optional[str] = None
 
 class UserResponse(BaseModel):
     id: int
