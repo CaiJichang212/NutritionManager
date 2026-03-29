@@ -1,0 +1,556 @@
+{
+  "frontend": {
+    "frontend": [
+      {
+        "id": "FE-001",
+        "name": "登录页面加载测试",
+        "description": "验证登录页面是否正确加载，包含所有必要元素",
+        "priority": "high",
+        "status": "passed",
+        "duration": 1144,
+        "error": null,
+        "screenshot": "screenshots/login_page_1774768434832.png",
+        "assertions": [
+          {
+            "passed": true,
+            "name": "assertExists",
+            "message": "页面标题存在"
+          },
+          {
+            "passed": true,
+            "name": "assertTrue",
+            "message": "登录表单存在"
+          },
+          {
+            "passed": true,
+            "name": "assertTrue",
+            "message": "提交按钮存在"
+          },
+          {
+            "passed": true,
+            "name": "assertContains",
+            "message": "页面包含应用名称"
+          }
+        ],
+        "timestamp": "2026-03-29T07:13:54.950Z"
+      },
+      {
+        "id": "FE-002",
+        "name": "登录表单元素测试",
+        "description": "验证登录表单包含所有必要元素",
+        "priority": "high",
+        "status": "failed",
+        "duration": 2,
+        "error": "this.page.$x is not a function",
+        "screenshot": null,
+        "assertions": [
+          {
+            "passed": true,
+            "name": "assertTrue",
+            "message": "手机号登录选项卡存在"
+          },
+          {
+            "passed": true,
+            "name": "assertTrue",
+            "message": "邮箱登录选项卡存在"
+          }
+        ],
+        "timestamp": "2026-03-29T07:13:54.953Z"
+      },
+      {
+        "id": "FE-003",
+        "name": "表单验证测试",
+        "description": "测试登录和注册表单的输入验证",
+        "priority": "medium",
+        "status": "failed",
+        "duration": 560,
+        "error": "this.page.$x is not a function",
+        "screenshot": null,
+        "assertions": [],
+        "timestamp": "2026-03-29T07:13:55.513Z"
+      },
+      {
+        "id": "FE-004",
+        "name": "用户注册流程测试",
+        "description": "测试完整的用户注册流程",
+        "priority": "high",
+        "status": "failed",
+        "duration": 728,
+        "error": "this.page.$x is not a function",
+        "screenshot": "screenshots/register_flow_error_1774768436107.png",
+        "assertions": [],
+        "timestamp": "2026-03-29T07:13:56.241Z"
+      },
+      {
+        "id": "FE-005",
+        "name": "用户登录测试",
+        "description": "测试邮箱登录功能",
+        "priority": "high",
+        "status": "failed",
+        "duration": 711,
+        "error": "this.page.$x is not a function",
+        "screenshot": "screenshots/login_error_1774768436826.png",
+        "assertions": [],
+        "timestamp": "2026-03-29T07:13:56.952Z"
+      },
+      {
+        "id": "FE-006",
+        "name": "仪表盘页面渲染测试",
+        "description": "验证仪表盘页面元素正确渲染",
+        "priority": "high",
+        "status": "passed",
+        "duration": 1957,
+        "error": null,
+        "screenshot": "screenshots/dashboard_1774768438839.png",
+        "assertions": [
+          {
+            "passed": true,
+            "name": "assertExists",
+            "message": "侧边栏存在"
+          },
+          {
+            "passed": true,
+            "name": "assertExists",
+            "message": "顶部导航存在"
+          },
+          {
+            "passed": true,
+            "name": "assertTrue",
+            "message": "热量信息存在"
+          },
+          {
+            "passed": true,
+            "name": "assertTrue",
+            "message": "营养素区域存在"
+          }
+        ],
+        "timestamp": "2026-03-29T07:13:58.909Z"
+      },
+      {
+        "id": "FE-007",
+        "name": "导航跳转测试",
+        "description": "测试侧边栏和底部导航的页面跳转",
+        "priority": "medium",
+        "status": "failed",
+        "duration": 1522,
+        "error": "导航到记录饮食页面失败; 导航到营养数据页面失败; 导航到数据报告页面失败; 导航到个人中心页面失败",
+        "screenshot": "screenshots/navigation_1774768440336.png",
+        "assertions": [
+          {
+            "passed": false,
+            "name": "assertTrue",
+            "message": "导航到记录饮食页面失败"
+          },
+          {
+            "passed": false,
+            "name": "assertTrue",
+            "message": "导航到营养数据页面失败"
+          },
+          {
+            "passed": false,
+            "name": "assertTrue",
+            "message": "导航到数据报告页面失败"
+          },
+          {
+            "passed": false,
+            "name": "assertTrue",
+            "message": "导航到个人中心页面失败"
+          }
+        ],
+        "timestamp": "2026-03-29T07:14:00.431Z"
+      },
+      {
+        "id": "FE-008",
+        "name": "响应式布局测试",
+        "description": "测试移动端和桌面端的响应式布局",
+        "priority": "medium",
+        "status": "passed",
+        "duration": 1480,
+        "error": null,
+        "screenshot": "screenshots/responsive_mobile_1774768441827.png",
+        "assertions": [
+          {
+            "passed": true,
+            "name": "assertTrue",
+            "message": "桌面端布局正常"
+          },
+          {
+            "passed": true,
+            "name": "assertTrue",
+            "message": "移动端布局正常"
+          }
+        ],
+        "timestamp": "2026-03-29T07:14:01.911Z"
+      },
+      {
+        "id": "FE-009",
+        "name": "页面加载性能测试",
+        "description": "测量页面加载时间和资源大小",
+        "priority": "medium",
+        "status": "passed",
+        "duration": 949,
+        "error": null,
+        "screenshot": null,
+        "assertions": [
+          {
+            "passed": true,
+            "name": "assertLessThan",
+            "message": "页面加载时间: 947ms"
+          },
+          {
+            "passed": true,
+            "name": "assertExists",
+            "message": "性能指标获取成功"
+          }
+        ],
+        "timestamp": "2026-03-29T07:14:02.860Z"
+      }
+    ],
+    "backend": [],
+    "summary": {
+      "total": 9,
+      "passed": 4,
+      "failed": 5,
+      "skipped": 0,
+      "startTime": "2026-03-29T07:13:53.805Z",
+      "endTime": "2026-03-29T07:14:02.860Z",
+      "duration": 9055,
+      "passRate": "44.44%"
+    }
+  },
+  "backend": {
+    "frontend": [],
+    "backend": [
+      {
+        "id": "API-000",
+        "name": "API健康检查",
+        "description": "验证后端服务是否正常运行",
+        "priority": "high",
+        "status": "passed",
+        "duration": 17,
+        "error": null,
+        "screenshot": null,
+        "assertions": [
+          {
+            "passed": true,
+            "name": "assertTrue",
+            "message": "API服务可访问"
+          },
+          {
+            "passed": true,
+            "name": "assertTrue",
+            "message": "API端点存在"
+          }
+        ],
+        "timestamp": "2026-03-29T07:14:02.954Z"
+      },
+      {
+        "id": "API-001",
+        "name": "用户注册接口测试",
+        "description": "测试POST /api/auth/register接口",
+        "priority": "high",
+        "status": "passed",
+        "duration": 181,
+        "error": null,
+        "screenshot": null,
+        "assertions": [
+          {
+            "passed": true,
+            "name": "assertStatusCode",
+            "message": "注册成功，状态码: 201"
+          },
+          {
+            "passed": true,
+            "name": "assertExists",
+            "message": "返回访问令牌"
+          },
+          {
+            "passed": true,
+            "name": "assertStatusCode",
+            "message": "重复注册正确返回错误，状态码: 400"
+          }
+        ],
+        "timestamp": "2026-03-29T07:14:03.135Z"
+      },
+      {
+        "id": "API-002",
+        "name": "用户登录接口测试",
+        "description": "测试POST /api/auth/login接口",
+        "priority": "high",
+        "status": "passed",
+        "duration": 358,
+        "error": null,
+        "screenshot": null,
+        "assertions": [
+          {
+            "passed": true,
+            "name": "assertStatusCode",
+            "message": "登录成功，状态码: 200"
+          },
+          {
+            "passed": true,
+            "name": "assertExists",
+            "message": "返回访问令牌"
+          },
+          {
+            "passed": true,
+            "name": "assertStatusCode",
+            "message": "错误密码正确返回401"
+          },
+          {
+            "passed": true,
+            "name": "assertStatusCode",
+            "message": "不存在用户正确返回401"
+          }
+        ],
+        "timestamp": "2026-03-29T07:14:03.494Z"
+      },
+      {
+        "id": "API-003",
+        "name": "获取用户信息接口测试",
+        "description": "测试GET /api/auth/me接口",
+        "priority": "high",
+        "status": "failed",
+        "duration": 1,
+        "error": "期望状态码 200，实际: 401",
+        "screenshot": null,
+        "assertions": [
+          {
+            "passed": false,
+            "name": "assertStatusCode",
+            "message": "期望状态码 200，实际: 401"
+          }
+        ],
+        "timestamp": "2026-03-29T07:14:03.495Z"
+      },
+      {
+        "id": "API-004",
+        "name": "更新用户资料接口测试",
+        "description": "测试PUT /api/auth/profile接口",
+        "priority": "medium",
+        "status": "failed",
+        "duration": 1,
+        "error": "期望状态码 200，实际: 401",
+        "screenshot": null,
+        "assertions": [
+          {
+            "passed": false,
+            "name": "assertStatusCode",
+            "message": "期望状态码 200，实际: 401"
+          }
+        ],
+        "timestamp": "2026-03-29T07:14:03.496Z"
+      },
+      {
+        "id": "API-005",
+        "name": "营养计算接口测试",
+        "description": "测试GET /api/auth/nutrition-calculation接口",
+        "priority": "medium",
+        "status": "failed",
+        "duration": 0,
+        "error": "期望状态码 200，实际: 401",
+        "screenshot": null,
+        "assertions": [
+          {
+            "passed": false,
+            "name": "assertStatusCode",
+            "message": "期望状态码 200，实际: 401"
+          }
+        ],
+        "timestamp": "2026-03-29T07:14:03.496Z"
+      },
+      {
+        "id": "API-006",
+        "name": "食物搜索接口测试",
+        "description": "测试GET /api/foods/search接口",
+        "priority": "medium",
+        "status": "passed",
+        "duration": 3,
+        "error": null,
+        "screenshot": null,
+        "assertions": [
+          {
+            "passed": true,
+            "name": "assertStatusCode",
+            "message": "搜索成功，状态码: 200"
+          },
+          {
+            "passed": true,
+            "name": "assertTrue",
+            "message": "返回数组"
+          },
+          {
+            "passed": true,
+            "name": "assertStatusCode",
+            "message": "缺少搜索参数正确返回错误，状态码: 422"
+          }
+        ],
+        "timestamp": "2026-03-29T07:14:03.499Z"
+      },
+      {
+        "id": "API-007",
+        "name": "食物分类接口测试",
+        "description": "测试GET /api/foods/categories/list接口",
+        "priority": "medium",
+        "status": "passed",
+        "duration": 1,
+        "error": null,
+        "screenshot": null,
+        "assertions": [
+          {
+            "passed": true,
+            "name": "assertStatusCode",
+            "message": "获取分类成功，状态码: 200"
+          },
+          {
+            "passed": true,
+            "name": "assertTrue",
+            "message": "返回数组"
+          }
+        ],
+        "timestamp": "2026-03-29T07:14:03.500Z"
+      },
+      {
+        "id": "API-008",
+        "name": "饮食记录创建接口测试",
+        "description": "测试POST /api/records接口",
+        "priority": "medium",
+        "status": "failed",
+        "duration": 1,
+        "error": "期望状态码 200/201，实际: 401",
+        "screenshot": null,
+        "assertions": [
+          {
+            "passed": false,
+            "name": "assertStatusCode",
+            "message": "期望状态码 200/201，实际: 401"
+          }
+        ],
+        "timestamp": "2026-03-29T07:14:03.501Z"
+      },
+      {
+        "id": "API-009",
+        "name": "获取今日记录接口测试",
+        "description": "测试GET /api/records/today接口",
+        "priority": "medium",
+        "status": "failed",
+        "duration": 1,
+        "error": "期望状态码 200，实际: 401",
+        "screenshot": null,
+        "assertions": [
+          {
+            "passed": false,
+            "name": "assertStatusCode",
+            "message": "期望状态码 200，实际: 401"
+          }
+        ],
+        "timestamp": "2026-03-29T07:14:03.502Z"
+      },
+      {
+        "id": "API-010",
+        "name": "获取历史摘要接口测试",
+        "description": "测试GET /api/records/history/summary接口",
+        "priority": "medium",
+        "status": "failed",
+        "duration": 1,
+        "error": "期望状态码 200，实际: 401",
+        "screenshot": null,
+        "assertions": [
+          {
+            "passed": false,
+            "name": "assertStatusCode",
+            "message": "期望状态码 200，实际: 401"
+          }
+        ],
+        "timestamp": "2026-03-29T07:14:03.503Z"
+      },
+      {
+        "id": "API-011",
+        "name": "更新饮食记录接口测试",
+        "description": "测试PUT /api/records/{id}接口",
+        "priority": "medium",
+        "status": "skipped",
+        "duration": 0,
+        "error": "没有可更新的记录",
+        "screenshot": null,
+        "assertions": [],
+        "timestamp": "2026-03-29T07:14:03.503Z"
+      },
+      {
+        "id": "API-012",
+        "name": "删除饮食记录接口测试",
+        "description": "测试DELETE /api/records/{id}接口",
+        "priority": "medium",
+        "status": "skipped",
+        "duration": 0,
+        "error": "没有可删除的记录",
+        "screenshot": null,
+        "assertions": [],
+        "timestamp": "2026-03-29T07:14:03.504Z"
+      },
+      {
+        "id": "API-013",
+        "name": "错误处理测试",
+        "description": "测试各种错误场景的响应",
+        "priority": "high",
+        "status": "failed",
+        "duration": 1,
+        "error": "期望状态码 404，实际: 405",
+        "screenshot": null,
+        "assertions": [
+          {
+            "passed": false,
+            "name": "assertStatusCode",
+            "message": "期望状态码 404，实际: 405"
+          },
+          {
+            "passed": true,
+            "name": "assertStatusCode",
+            "message": "无效注册数据正确返回错误，状态码: 422"
+          }
+        ],
+        "timestamp": "2026-03-29T07:14:03.505Z"
+      },
+      {
+        "id": "API-014",
+        "name": "认证边界条件测试",
+        "description": "测试无效token、过期token等场景",
+        "priority": "high",
+        "status": "passed",
+        "duration": 1,
+        "error": null,
+        "screenshot": null,
+        "assertions": [
+          {
+            "passed": true,
+            "name": "assertStatusCode",
+            "message": "无效token正确返回401"
+          },
+          {
+            "passed": true,
+            "name": "assertStatusCode",
+            "message": "无token正确返回403"
+          }
+        ],
+        "timestamp": "2026-03-29T07:14:03.506Z"
+      }
+    ],
+    "summary": {
+      "total": 15,
+      "passed": 6,
+      "failed": 7,
+      "skipped": 2,
+      "startTime": "2026-03-29T07:14:02.937Z",
+      "endTime": "2026-03-29T07:14:03.506Z",
+      "duration": 569,
+      "passRate": "40.00%"
+    }
+  },
+  "summary": {
+    "total": 24,
+    "passed": 10,
+    "failed": 12,
+    "skipped": 2,
+    "timestamp": "2026-03-29T07:14:03.507Z"
+  }
+}
